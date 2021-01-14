@@ -1,5 +1,5 @@
 ## 简介 ##
-一个从Epubee在线阅读页面爬取并打包成epub电子书的程序，灵感来自banjiaojuhao的[epub-download-rs](https://github.com/banjiaojuhao/epub-download-rs)项目
+一个基于Python的从Epubee在线阅读页面爬取并打包成epub电子书的程序，灵感来自banjiaojuhao的[epub-download-rs](https://github.com/banjiaojuhao/epub-download-rs)项目
 
 ## 依赖 ##
 pip install requests bs4 html5lib
