@@ -11,8 +11,8 @@ from bs4 import BeautifulSoup as bs
 import xml.dom.minidom as xdm
 print("Please input epubee link, exit to quit:")
 print("Example:http://reader.epubee.com/books/mobile/44/44b1f05fdda07d8a65c088b7094b5df7/")
-cache_path="/sdcard/Download/cache"
-book_path="/sdcard/Download/book"
+cache_path="./cache"
+book_path="./book"
 while True:
     book_link=input()
     if "reader.epubee.com/books/mobile" in book_link:
