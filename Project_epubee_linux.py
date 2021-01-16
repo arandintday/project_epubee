@@ -9,18 +9,19 @@ import zipfile
 from xml.dom.minidom import parse
 from bs4 import BeautifulSoup as bs
 import xml.dom.minidom as xdm
-print("Please input epubee link, exit to quit:")
-print("Example:http://reader.epubee.com/books/mobile/44/44b1f05fdda07d8a65c088b7094b5df7/")
+print("Welcome to Project Epubee Framework 9000!")
+print("Usage: Input epubee link to download, exit to quit")
+print("Example: http://reader.epubee.com/books/mobile/44/44b1f05fdda07d8a65c088b7094b5df7/")
 cache_path="./cache"
 book_path="./book"
 while True:
-    book_link=input()
+    book_link=input("pef9k >")
     if "reader.epubee.com/books/mobile" in book_link:
         break
     elif "exit" in book_link:
         sys.exit()
     else:
-        print("[-] E:Invailed link, please check your link and retry!")
+        print("[-] E:Invailed link, please check your input and retry!")
 isCacheExists=os.path.exists(cache_path)
 if isCacheExists:
     shutil.rmtree(cache_path)#清除旧文件夹
@@ -61,18 +62,34 @@ print("[*] Opf file analyze successfully")
 print("[*] Downloading contents...")
 for b_item in book_content:
     #print(b_item.getAttribute("href"))
-    for j in range(1,50):
+    for j in range(1,10):
         try:
             item=b_item.getAttribute("href")
             if "/" in item:
                 sub_link=item.split("/")
                 sub_path="{}/{}".format(cache_path,sub_link[0])
+                file_name=sub_link[1]
+                #print(sub_link[1])
                 isSubExists=os.path.exists(sub_path)
                 if not isSubExists:
                     os.makedirs(sub_path)
-                urllib.request.urlretrieve("{}{}".format(book_link,item),"{}/{}".format(sub_path,sub_link[1]))
+                if "html" in file_name:
+                    r=requests.get("{}{}".format(book_link,item),timeout=5)
+                    soup=bs(r.content,"html5lib")
+                    try:
+                        soup.find('div',class_="readertop").decompose()
+                        soup.find('div',class_="readermenu").decompose()
+                        soup.find('div',class_="reader-to-vip c-pointer").decompose()
+                    except:
+                        print("[*] Nothing to remove")
+                    f=open("{}/{}".format(sub_path,file_name),'w',encoding='utf-8')
+                    f.write(str(soup))
+                    f.close()
+                else:
+                    urllib.request.urlretrieve("{}{}".format(book_link,item),"{}/{}".format(sub_path,file_name))
             elif "html" in item:
-                #urllib.request.urlretrieve("{}{}".format(book_link,item),"{}//{}".format(cache_path,item))
+                #print(item)
+                #urllib.request.urlretrieve("{}{}".format(book_link,item),"{}/{}".format(cache_path,item))
                 r=requests.get("{}{}".format(book_link,item),timeout=5)
                 soup=bs(r.content,"html5lib")
                 try:
@@ -89,7 +106,7 @@ for b_item in book_content:
             break
         except Exception as e:
             print("[-] E:{}".format(e))
-            print("[-] Retrying {} of 50 times".format(j))
+            print("[-] Retrying {} of 10 times".format(j))
             time.sleep(random.randint(1,4))
     print("[*] {} of {} items downloaded".format(num,max_num),end="\r")
     num+=1
