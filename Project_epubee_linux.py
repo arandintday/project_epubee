@@ -11,12 +11,12 @@ from bs4 import BeautifulSoup as bs
 import xml.dom.minidom as xdm
 print("Welcome to Project Epubee Framework 9000!")
 print("Usage: Input epubee link to download, exit to quit")
-print("Example: http://reader.epubee.com/books/mobile/44/44b1f05fdda07d8a65c088b7094b5df7/")
+print("Example: http://reader.obook.vip/books/mobile/62/6244a56007d3b59ac79d0e870b455b6e/")
 cache_path="./cache"
 book_path="./book"
 while True:
     book_link=input("pef9k >")
-    if "reader.epubee.com/books/mobile" in book_link:
+    if "reader.obook.vip/books/mobile" in book_link:
         break
     elif "exit" in book_link:
         sys.exit()
